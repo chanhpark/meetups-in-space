@@ -47,16 +47,24 @@ get '/create_new' do
 end
 
 post '/create_new' do
-  flash[:notice] = "You successfully created a new Meetup!"
   @name = params[:name]
   @description = params[:description]
   @location = params[:location]
-
   @meetup = Meetup.create(name: @name, description: @description, location: @location)
-  redirect '/'
+  if @name.empty?
+    flash[:notice] = "Please insert a name for the meetup"
+    redirect "/create_new"
+  elsif @description.empty?
+    flash[:notice] = "Please insert a description for the meet"
+    redirect "/create_new"
+  elsif @location.empty?
+    flash[:notice] = "Please insert a location"
+    redirect "/create_new"
+  else
+    flash[:notice] = "You successfully created a new meetup!"
+    redirect "/meetups/#{@meetup[:id]}"
+  end
 end
-
-
 
 get '/auth/github/callback' do
   auth = env['omniauth.auth']

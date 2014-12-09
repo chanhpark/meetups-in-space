@@ -424,4 +424,8 @@ th {
   padding: 0;
 }
 
-input{ color: black;}
+button,
+input{
+  color: black;
+
+}
