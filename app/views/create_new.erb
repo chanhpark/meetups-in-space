@@ -1,5 +1,6 @@
 <form action='/create_new' method='POST'>
   Create a New Meet!
+  <% if signed_in? %>
   <ul><input type='Text' name="name" size=''
     placeholder='Name of Meetup'></ul>
 
@@ -10,3 +11,6 @@
         placeholder='Location of Meetup'></ul>
         <ul><button type='submit'>Submit New Meetup </button></ul>
       </form>
+      <% else %>
+    <ul>  You must Sign in to create a new meetup! <ul>
+      <% end %>
