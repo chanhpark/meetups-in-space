@@ -2,6 +2,7 @@ require 'sinatra'
 require 'sinatra/activerecord'
 require 'sinatra/flash'
 require 'omniauth-github'
+require 'pry'
 
 require_relative 'config/application'
 
@@ -39,6 +40,17 @@ get '/meetups/:id' do
 
   erb :meetups
 end
+
+get '/create_new' do
+
+  erb :create_new
+end
+
+post '/create_new' do
+  @meetup = Meetup.create(params)
+  redirect '/'
+end
+
 
 
 get '/auth/github/callback' do
