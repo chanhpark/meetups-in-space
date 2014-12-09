@@ -13,8 +13,8 @@
     <a class="logo" href="/">Meetups in Space</a>
 
     <ul class="top-bar-section">
-      <a class="createnew" href="/create_new"> Create a meetup</a> |
       <% if signed_in? %>
+      <a class="createnew" href="/create_new"> Create a meetup</a>
         <li>Signed in as <%= current_user.username %></a></li>
         <li><a href="/sign_out">Sign out</a></li>
       <% else %>

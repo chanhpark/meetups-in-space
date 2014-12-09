@@ -2,8 +2,15 @@
 <h4>Description:</h4> <%= @meetups.description %>
 <h4>Location:</h4> <%= @meetups.location %>
 
+<h4> Attendees </h4>
+<% @users.each do |id| %>
+  <ul><img width="30px" height="30px" src= <%=id.avatar_url %>> <%= id.username %></ul>
+  <% end %>
+
+
   <% if signed_in? %>
-  <ul><button type='submit'> Join this meetup</button></ul>
+  <form method='POST'>
+  <ul><button type='submit' > Join this meetup</button></ul>
   <% else %>
   <a href="/auth/github"><ul><button type='submit'> Sign in to join this meetup</button></ul></a>
   <% end %>

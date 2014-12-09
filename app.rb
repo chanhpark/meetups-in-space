@@ -37,8 +37,16 @@ end
 
 get '/meetups/:id' do
   @meetups = Meetup.find_by_id(params[:id])
+  @users = @meetups.users
 
   erb :meetups
+end
+
+post '/meetups/:id' do
+  @user_id = current_user[:id]
+  @meetup_id = params[:id]
+  @attendees = Rsvp.create(user_id: @user_id, meetup_id: @meetup_id)
+  redirect "/meetups/#{@meetup_id}"
 end
 
 get '/create_new' do
@@ -51,6 +59,7 @@ post '/create_new' do
   @description = params[:description]
   @location = params[:location]
   @meetup = Meetup.create(name: @name, description: @description, location: @location)
+
   if @name.empty?
     flash[:notice] = "Please insert a name for the meetup"
     redirect "/create_new"
