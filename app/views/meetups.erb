@@ -1,3 +1,9 @@
 <h2><%= @meetups.name %></h2>
 <h4>Description:</h4> <%= @meetups.description %>
 <h4>Location:</h4> <%= @meetups.location %>
+
+  <% if signed_in? %>
+  <ul><button type='submit'> Join this meetup</button></ul>
+  <% else %>
+  <a href="/auth/github"><ul><button type='submit'> Sign in to join this meetup</button></ul></a>
+  <% end %>
