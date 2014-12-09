@@ -47,6 +47,7 @@ get '/create_new' do
 end
 
 post '/create_new' do
+  flash[:notice] = "You successfully created a new Meetup!"
   @meetup = Meetup.create(params)
   redirect '/'
 end
