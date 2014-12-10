@@ -36,9 +36,9 @@ get '/' do
 end
 
 get '/meetups/:id' do
-  @meetups = Meetup.find_by_id(params[:id])
+  @meetups = Meetup.find_by(id: params[:id])
   @attendees = @meetups.users
-
+  @messages = Message.find_by(meetup_id: params[:id])
   erb :meetups
 end
 
@@ -55,6 +55,11 @@ post "/meetups/:id/leave" do
   remove_user = Rsvp.find_by(user_id: @user_id, meetup_id: @meetup_id)
   remove_user.destroy
   redirect "/meetups/#{@meetup_id}"
+end
+
+post "/add_message" do
+  Message.create(message: params[:message], user_id: current_user[:id], meetup_id: params[:meetup])
+  redirect "/meetups/#{params[:meetup]}"
 end
 
 

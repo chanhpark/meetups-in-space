@@ -19,3 +19,19 @@
   <% else %>
     <a href="/auth/github"><ul><button type='submit'> Sign in to join this meetup</button></ul></a>
   <% end %>
+
+<% if @attendees.include?(current_user) %>
+  <h4> Message Board </h4>
+  <% @messages.each do |posts| %>
+
+  <ul>
+    <%= posts.users.username %>
+    <%= posts.message %>
+    <%= posts.created_at %></ul>
+  <% end %>
+
+  <form action="/add_message" method="post">
+    <input type="text" name="message">
+    <input name="meetup" value="<%= @meetups.id %>" hidden>
+    <button type="submit">Post Message</button>
+<% end %>
