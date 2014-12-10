@@ -3,14 +3,21 @@
 <h4>Location:</h4> <%= @meetups.location %>
 
 <h4> Attendees </h4>
-<% @users.each do |id| %>
+<% @attendees.each do |id| %>
   <ul><img width="30px" height="30px" src= <%=id.avatar_url %>> <%= id.username %></ul>
   <% end %>
 
 
   <% if signed_in? %>
-  <form method='POST'>
-  <ul><button type='submit' > Join this meetup</button></ul>
+  <form action="/meetups/<%= @meetups.id %>" method="post">
+    <% if member?(session[:user_id], @meetups.id) %>
+    <input type="hidden" name="leave">
+    <button type="submit">Leave Meetup</button>
+    <% else %>
+    <input type="hidden" name="join">
+    <button type="submit">Join Meetup</button>
+    <% end %>
+  </form>
   <% else %>
   <a href="/auth/github"><ul><button type='submit'> Sign in to join this meetup</button></ul></a>
   <% end %>

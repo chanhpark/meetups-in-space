@@ -30,6 +30,12 @@ def authenticate!
   end
 end
 
+def member?(user_id, meetup_id)
+  if signed_in?
+    !Rsvp.where(["user_id = ? AND meetup_id = ?", user_id, meetup_id]).empty?
+  end
+end
+
 get '/' do
   @meetups = Meetup.all
   erb :index
@@ -37,7 +43,7 @@ end
 
 get '/meetups/:id' do
   @meetups = Meetup.find_by_id(params[:id])
-  @users = @meetups.users
+  @attendees = @meetups.users
 
   erb :meetups
 end
@@ -45,7 +51,12 @@ end
 post '/meetups/:id' do
   @user_id = current_user[:id]
   @meetup_id = params[:id]
-  @attendees = Rsvp.create(user_id: @user_id, meetup_id: @meetup_id)
+  if params[:leave]
+    remove_user = Rsvp.where('user_id = ? AND meetup_id = ?', @user_id, @meetup_id).first
+    remove_user.destroy
+  else params[:join]
+  @rsvp = Rsvp.create(user_id: @user_id, meetup_id: @meetup_id)
+  end
   redirect "/meetups/#{@meetup_id}"
 end
 
