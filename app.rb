@@ -32,7 +32,7 @@ end
 
 def member?(user_id, meetup_id)
   if signed_in?
-    !Rsvp.where(["user_id = ? AND meetup_id = ?", user_id, meetup_id]).empty?
+    !Rsvp.where(user_id: user_id, meetup_id: meetup_id).empty?
   end
 end
 
@@ -52,7 +52,7 @@ post '/meetups/:id' do
   @user_id = current_user[:id]
   @meetup_id = params[:id]
   if params[:leave]
-    remove_user = Rsvp.where('user_id = ? AND meetup_id = ?', @user_id, @meetup_id).first
+    remove_user = Rsvp.where(user_id: @user_id, meetup_id:@meetup_id).first
     remove_user.destroy
   else params[:join]
   @rsvp = Rsvp.create(user_id: @user_id, meetup_id: @meetup_id)
