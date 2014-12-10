@@ -25,7 +25,7 @@
   <% @messages.each do |posts| %>
 
   <ul>
-    <%= posts.users.username %>
+    <%= posts.user.username %>
     <%= posts.message %>
     <%= posts.created_at %></ul>
   <% end %>

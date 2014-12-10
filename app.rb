@@ -38,7 +38,7 @@ end
 get '/meetups/:id' do
   @meetups = Meetup.find_by(id: params[:id])
   @attendees = @meetups.users
-  @messages = Message.find_by(meetup_id: params[:id])
+  @messages = Message.all
   erb :meetups
 end
 
