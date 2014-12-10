@@ -4,20 +4,18 @@
 
 <h4> Attendees </h4>
 <% @attendees.each do |id| %>
-  <ul><img width="30px" height="30px" src= <%=id.avatar_url %>> <%= id.username %></ul>
+  <ul><img width="50px" height="50px" src= <%=id.avatar_url %>> <%= id.username %></ul>
   <% end %>
 
 
   <% if signed_in? %>
-  <form action="/meetups/<%= @meetups.id %>" method="post">
-    <% if member?(session[:user_id], @meetups.id) %>
-    <input type="hidden" name="leave">
-    <button type="submit">Leave Meetup</button>
-    <% else %>
-    <input type="hidden" name="join">
-    <button type="submit">Join Meetup</button>
-    <% end %>
-  </form>
+      <% if @attendees.include?(current_user) %>
+          <form action="/meetups/<%= @meetups.id %>/leave" method="post">
+          <button type="submit">Leave Meetup</button></form>
+      <% else %>
+          <form action="/meetups/<%= @meetups.id %>/join" method="post">
+          <button type="submit">Join Meetup</button></form>
+      <% end %>
   <% else %>
-  <a href="/auth/github"><ul><button type='submit'> Sign in to join this meetup</button></ul></a>
+    <a href="/auth/github"><ul><button type='submit'> Sign in to join this meetup</button></ul></a>
   <% end %>
