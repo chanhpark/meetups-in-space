@@ -46,6 +46,7 @@ post "/meetups/:id/join" do
   @user_id = current_user[:id]
   @meetup_id = params[:id]
   @join = Rsvp.create(user_id: @user_id, meetup_id: @meetup_id)
+  flash[:notice] = 'You successfully joined this meetup!'
   redirect "/meetups/#{@meetup_id}"
 end
 
@@ -54,11 +55,13 @@ post "/meetups/:id/leave" do
   @meetup_id = params[:id]
   remove_user = Rsvp.find_by(user_id: @user_id, meetup_id: @meetup_id)
   remove_user.destroy
+  flash[:notice] = 'You successfully left this meetup.'
   redirect "/meetups/#{@meetup_id}"
 end
 
 post "/add_message" do
   Message.create(message: params[:message], user_id: current_user[:id], meetup_id: params[:meetup])
+  flash[:notice] = 'Your Meetup thanks you for the update!'
   redirect "/meetups/#{params[:meetup]}"
 end
 
